@@ -2,7 +2,8 @@ name: Triggers
 run-name: Aprendiendo triggers!!
 on: 
   push:
-    branches: aprendiendo-github-actions
+    branches: ['main', 'aprendiendo-**']
+    
   pull_request:
     types: [opened, syncronize, reopened]
     paths:
@@ -10,6 +11,7 @@ on:
     issues:
       types:
         - labeled
+        
   workflow_dispatch:
     inputs:
       lenguaje_favorito:
@@ -32,16 +34,20 @@ on:
     hola-mundo-manual:
       runs-on: ubuntu-latest
       status: 
-        - name: Checkout
-          uses: actions/checkout@v3
+        - name: clonar repo en el runner
+          uses: actions/checkout@v4
+          
         - name: Definir nombre
           run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+          
         - name: Definir lenguaje
           run: echo "LENGUAJE=${{inputs.lenguaje_favorito }}" >> $GIT
-        - name: Correr script
+          
+        - name: Correr script multiline
           run: |
             javac Main.java
             java Main
+            
     hola-mundo:
       if: ${{ github.event_name != 'workflow_dispatch'}}
       runs-on: ubuntu-latest
