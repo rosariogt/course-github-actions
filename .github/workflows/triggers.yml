@@ -2,7 +2,7 @@ name: Triggers
 run-name: Aprendiendo triggers!!
 on: 
   push:
-    branches: aprendiendo-githubs-actions
+    branches: aprendiendo-github-actions
   pull_request:
     types: [opened, syncronize, reopened]
     paths:
