@@ -1,17 +1,19 @@
 name: Triggers
 run-name: Aprendiendo triggers!!
-on: 
+
+on:
   push:
     branches: ['main', 'aprendiendo-**']
-    
+
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - '**.yml'
+
   issues:
     types:
       - labeled
-        
+
   workflow_dispatch:
     inputs:
       lenguaje_favorito:
@@ -23,42 +25,46 @@ on:
           - Python
           - Java
           - Go
-        nombre:
-          description: 'rosario'
-          required: true
-          default: rosario
-          type: string
+      nombre:
+        description: 'Nombre'
+        required: true
+        default: rosario
+        type: string
+
   schedule:
     - cron: '17 22 * * *'
-  jobs: 
-    hola-mundo-manual:
-      runs-on: ubuntu-latest
-      status: 
-        - name: clonar repo en el runner
-          uses: actions/checkout@v4
-          
-        - name: Definir nombre
-          run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
-          
-        - name: Definir lenguaje
-          run: echo "LENGUAJE=${{inputs.lenguaje_favorito }}" >> $GIT
-          
-        - name: Correr script multiline
-          run: |
-            javac Main.java
-            java Main
-            
-    hola-mundo:
-      if: ${{ github.event_name != 'workflow_dispatch'}}
-      runs-on: ubuntu-latest
-      status: 
-        - name: Checkout
-          uses: actions/checkout@v3
-        - name: definir variable
-          uses: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
-        - name: Correr script
-          run: |
-            javac Main.java
-            java Main
-        
-    
+
+jobs:
+
+  hola-mundo-manual:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repo
+        uses: actions/checkout@v4
+
+      - name: Definir nombre
+        run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+
+      - name: Definir lenguaje
+        run: echo "LENGUAJE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
+
+      - name: Correr script
+        run: |
+          javac Main.java
+          java Main
+
+  hola-mundo:
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Definir usuario
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+
+      - name: Correr script
+        run: |
+          javac Main.java
+          java Main
