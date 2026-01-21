@@ -5,12 +5,12 @@ on:
     branches: ['main', 'aprendiendo-**']
     
   pull_request:
-    types: [opened, syncronize, reopened]
+    types: [opened, synchronize, reopened]
     paths:
-      - '**.java'
-    issues:
-      types:
-        - labeled
+      - '**.yml'
+  issues:
+    types:
+      - labeled
         
   workflow_dispatch:
     inputs:
