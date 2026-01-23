@@ -2,6 +2,10 @@ name: Expresiones
 run-name: Aprendiendo a usar expresiones
 
 on:
+  push:
+    branches:
+      - main
+      - aprendiendo-**
   workflow_dispatch:
     inputs:
       edad:
@@ -16,22 +20,22 @@ on:
 
 jobs:
   mayor:
-    if: ${{ inputs.edad >= 18 }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.edad >= 18 }}
     runs-on: ubuntu-latest
     steps:
       - name: Mayor de edad
         run: echo "${{ inputs.nombre }} es mayor de edad"
 
   menor:
-    if: ${{ inputs.edad < 18 }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.edad < 18 }}
     runs-on: ubuntu-latest
     steps:
       - name: Menor de edad
         run: echo "${{ inputs.nombre }} es menor de edad"
 
   bonus:
-    if: ${{ inputs.edad == 20 }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.edad == 20 }}
     runs-on: ubuntu-latest
     steps:
       - name: Bonus edad 20
-        run: echo "${{ inputs.nombre }} tiene 20
+        run: echo "${{ inputs.nombre }} tiene 20"
