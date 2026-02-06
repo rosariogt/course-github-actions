@@ -1,6 +1,10 @@
 name: Contexto
 run-name: Aprendiendo contextos
-on: push
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-**
 jobs:
   check-main:
     if: ${{ github.ref == 'refs/heads/main' }}
